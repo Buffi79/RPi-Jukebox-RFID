@@ -58,7 +58,13 @@ class Mfrc522Reader(object):
 
         # If we have the UID, continue
         if status == self.device.MI_OK:
-            return ''.join((str(x) for x in uid))
+            hex0 = hex(int(uid[0]))[2:]
+            hex1 = hex(int(uid[1]))[2:]
+            hex2 = hex(int(uid[2]))[2:]
+            hex3 = hex(int(uid[3]))[2:]
+            total = hex0 + hex1 + hex2 + hex3
+            return str(int(total, 16))
+            #return ''.join((str(x) for x in uid))
         else:
             print "No Device ID found."
             return None
