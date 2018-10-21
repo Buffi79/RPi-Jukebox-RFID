@@ -26,12 +26,27 @@ print "Press Ctrl-C to stop."
 # Hook the SIGINT
 signal.signal(signal.SIGINT, end_read)
 
+maxtries = 3
+tries = 0
+prevcardid = "-1"
+
 while continue_reading:
     # reading the card id
     cardid = reader.reader.read_card()
-    if cardid is not None:
-        try:
-            # start the player script and pass on the card id
-            subprocess.call([dir_path + '/rfid_trigger_play.sh --cardid=' + cardid], shell=True)
-        except OSError as e:
-            print "Execution failed:" + str(e)
+    if cardid is None:
+       if tries <= maxtries:
+          tries += 1
+       else:
+          cardid="NoCardId"
+          tries = 0
+    else:
+       tries = 0
+    
+    # ToDo Handle second Swipe.. 
+    if cardid != prevcardid and cardid is not None:
+       prevcardid = cardid
+       try:
+          # start the player script and pass on the card id
+          subprocess.call([dir_path + '/rfid_trigger_play.sh --cardid=' + cardid], shell=True)
+       except OSError as e:
+          print "Execution failed:" + str(e)

@@ -85,6 +85,14 @@ SECONDSWIPE=`cat $PATHDATA/../settings/Second_Swipe`
 ##################################################################
 # Check if we got the card ID or the audio folder from the prompt.
 # Sloppy error check, because we assume the best.
+
+#Todo handle second Swipe
+if [ "$CARDID" = "NoCardId" ]; then
+    mpc stop
+    echo "No card on Reader. Stop" >> $PATHDATA/../logs/debug.log
+    exit 0
+fi
+
 if [ "$CARDID" ]; then
     # we got the card ID
     # If you want to see the CARDID printed, uncomment the following line
