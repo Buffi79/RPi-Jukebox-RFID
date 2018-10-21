@@ -231,6 +231,16 @@ if [ "$CARDID" ]; then
             $PATHDATA/playout_controls.sh -c=stoprecord
             ;;
         *)
+
+
+            # Try to Play RFID from remote-Service
+            $PATHDATA/userscripts/playStream.sh $CARDID
+            if [ $? -eq 0 ]; then
+              if [ $DEBUG == "true" ]; then echo "Playing something from remote Service" >> $PATHDATA/../logs/debug.log; fi
+              exit 0
+            fi
+            if [ $DEBUG == "true" ]; then echo "RFID on Remote-Service unknown.." >> $PATHDATA/../logs/debug.log; fi 
+
             # We checked if the card was a special command, seems it wasn't.
             # Now we expect it to be a trigger for one or more audio file(s).
             # Let's look at the ID, write a bit of log information and then try to play audio.
