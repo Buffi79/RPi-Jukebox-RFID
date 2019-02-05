@@ -25,8 +25,8 @@ if [[ -z "$SMB_CREDENTIALS" ]]; then
 fi
 
 replace="smb://${SMB_CREDENTIALS}@"
-url=${url/x-file-cifs:\/\//$replace}
-
+url=$replace$url
+echo $url
 
 mpc stop
 mpc clear

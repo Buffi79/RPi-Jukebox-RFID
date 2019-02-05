@@ -17,6 +17,16 @@ fi
 # 2. then|or read value from file
 IDLETIME=`cat $PATHDATA/../settings/Idle_Time_Before_Shutdown`
 
+
+# Set Startup Volume to value from settingsfile
+if [ -f $PATHDATA/../settings/Startup_Volume ]; then
+    # read value from settings file
+    STARTUPVOLUME=`cat $PATHDATA/../settings/Startup_Volume`
+    # give volume setting to mpc
+    $PATHDATA/playout_controls.sh -c=setvolume -v=$STARTUPVOLUME
+fi
+
+
 #Go into infinite loop if idle time is greater 0
 while [ $IDLETIME -gt 0 ]
 do
